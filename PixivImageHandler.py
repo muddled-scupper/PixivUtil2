@@ -64,7 +64,7 @@ def process_image(caller,
     filename = f'no-filename-{image_id}.tmp'
 
     try:
-        msg = ui_prefix + Fore.YELLOW + Style.NORMAL + f'Processing Image Id: {image_id}' + Style.RESET_ALL
+        msg = ui_prefix + f'Processing Image Id: {image_id}'
         PixivHelper.print_and_log(None, msg)
         notifier(type="IMAGE", message=msg)
 
@@ -205,20 +205,20 @@ def process_image(caller,
             PixivHelper.print_and_log('warn', f'Skipping image_id: {image_id} - post bookmark count {image.bookmark_count} is less than: {bookmark_count}')
 
         if download_image_flag:
-            if artist is None:
-                PixivHelper.print_and_log(None, f'{Fore.LIGHTCYAN_EX}{"Member Name":14}:{Style.RESET_ALL} {image.artist.artistName}')
-                PixivHelper.print_and_log(None, f'{Fore.LIGHTCYAN_EX}{"Member Avatar":14}:{Style.RESET_ALL} {image.artist.artistAvatar}')
-                PixivHelper.print_and_log(None, f'{Fore.LIGHTCYAN_EX}{"Member Token":14}:{Style.RESET_ALL} {image.artist.artistToken}')
-                PixivHelper.print_and_log(None, f'{Fore.LIGHTCYAN_EX}{"Member Backgrd":14}:{Style.RESET_ALL} {image.artist.artistBackground}')
+            # if artist is None:
+            #     PixivHelper.print_and_log(None, f'{"Member Name":14}: {image.artist.artistName}')
+            #     PixivHelper.print_and_log(None, f'{"Member Avatar":14}: {image.artist.artistAvatar}')
+            #     PixivHelper.print_and_log(None, f'{"Member Token":14}: {image.artist.artistToken}')
+            #     PixivHelper.print_and_log(None, f'{"Member Backgrd":14}: {image.artist.artistBackground}')
 
-            PixivHelper.print_and_log(None, f"{Fore.LIGHTCYAN_EX}{'Title':10}:{Style.RESET_ALL} {image.imageTitle}")
-            if len(image.translated_work_title) > 0:
-                PixivHelper.print_and_log(None, f"{Fore.LIGHTCYAN_EX}{'TL-ed Title':10}: {image.translated_work_title}")
-            tags_str = ', '.join(image.imageTags).replace("AI-generated", f"{Fore.LIGHTYELLOW_EX}AI-generated{Style.RESET_ALL}")
-            PixivHelper.print_and_log(None, f"{Fore.LIGHTCYAN_EX}{'Tags':10}:{Style.RESET_ALL} {tags_str}")
-            PixivHelper.print_and_log(None, f"{Fore.LIGHTCYAN_EX}{'Date':10}:{Style.RESET_ALL} {image.worksDateDateTime}")
-            PixivHelper.print_and_log(None, f"{Fore.LIGHTCYAN_EX}{'Mode':10}:{Style.RESET_ALL} {image.imageMode}")
-            PixivHelper.print_and_log(None, f"{Fore.LIGHTCYAN_EX}{'Bookmarks':10}:{Style.RESET_ALL} {image.bookmark_count}")
+            PixivHelper.print_and_log(None, f"{'Title':10}: {image.imageTitle}")
+            # if len(image.translated_work_title) > 0:
+            #     PixivHelper.print_and_log(None, f"{'TL-ed Title':10}: {image.translated_work_title}")
+            # tags_str = ', '.join(image.imageTags).replace("AI-generated", f"AI-generated")
+            # PixivHelper.print_and_log(None, f"{'Tags':10}: {tags_str}")
+            # PixivHelper.print_and_log(None, f"{'Date':10}: {image.worksDateDateTime}")
+            # PixivHelper.print_and_log(None, f"{'Mode':10}: {image.imageMode}")
+            # PixivHelper.print_and_log(None, f"{'Bookmarks':10}: {image.bookmark_count}")
 
             if config.useSuppressTags:
                 for item in caller.__suppressTags:
@@ -227,7 +227,7 @@ def process_image(caller,
 
             # get manga page
             if image.imageMode == 'manga':
-                PixivHelper.print_and_log(None, f"{Fore.LIGHTCYAN_EX}{'Pages':10}:{Style.RESET_ALL} {image.imageCount}")
+                PixivHelper.print_and_log(None, f"{'Pages':10}: {image.imageCount}")
 
             if user_dir == '':  # Yavos: use config-options
                 target_dir = config.rootDirectory
@@ -250,8 +250,8 @@ def process_image(caller,
             current_img = 1
             total = len(source_urls)
             for img in source_urls:
-                prefix = f"{Fore.CYAN}[{current_img}/{total}]{Style.RESET_ALL} "
-                PixivHelper.print_and_log(None, f'{prefix}Image URL : {img}')
+                prefix = f"[{current_img}/{total}] "
+                # PixivHelper.print_and_log(None, f'{prefix}Image URL : {img}')
                 url = os.path.basename(img)
                 # split_url = url.split('.')
                 # if split_url[0].startswith(str(image_id)):
@@ -278,7 +278,7 @@ def process_image(caller,
                         # filename = splitted_filename[0] + splitted_manga_page[0] + os.sep + "_p" + splitted_manga_page[1] + splitted_filename[1]
                         filename = f"{splitted_filename[0]}{splitted_manga_page[0]}{os.sep}_p{splitted_manga_page[1]}{splitted_filename[1]}"
 
-                PixivHelper.print_and_log('info', f'{prefix}Filename  : {filename}')
+                # PixivHelper.print_and_log('info', f'{prefix}Filename  : {filename}')
 
                 result = PixivConstant.PIXIVUTIL_NOT_OK
                 try:
@@ -486,7 +486,7 @@ def process_manga_series(caller,
     if notifier is None:
         notifier = PixivHelper.dummy_notifier
     try:
-        msg = Fore.YELLOW + Style.NORMAL + f'Processing Manga Series Id: {manga_series_id}' + Style.RESET_ALL
+        msg = f'Processing Manga Series Id: {manga_series_id}'
         PixivHelper.print_and_log(None, msg)
         notifier(type="MANGA_SERIES", message=msg)
 
@@ -582,7 +582,7 @@ def process_ugoira_local(caller, config):
                     # Process artwork locally
                     if "ugoira" in extension and not config.overwrite:
                         try:
-                            msg = Fore.YELLOW + Style.NORMAL + f'Processing Image Id: {image_id}' + Style.RESET_ALL
+                            msg = f'Processing Image Id: {image_id}'
                             PixivHelper.print_and_log(None, msg)
                             PixivDownloadHandler.handle_ugoira(None, str(zip), config, None)
                             res = PixivConstant.PIXIVUTIL_OK

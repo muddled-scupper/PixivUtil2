@@ -96,11 +96,10 @@ dfilename = ""
 
 def header():
     PADDING = 60
-    print("┌" + "".ljust(PADDING - 2, "─") + "┐")
-    print("│ " + Fore.YELLOW + Back.BLACK + Style.BRIGHT + f"PixivDownloader2 version {PixivConstant.PIXIVUTIL_VERSION}".ljust(PADDING - 3, " ") + Style.RESET_ALL + "│")
-    print("│ " + Fore.CYAN + Back.BLACK + Style.BRIGHT + PixivConstant.PIXIVUTIL_LINK.ljust(PADDING - 3, " ") + Style.RESET_ALL + "│")
-    print("│ " + Fore.YELLOW + Back.BLACK + Style.BRIGHT + f"Donate at {Fore.CYAN}{Style.BRIGHT}{PixivConstant.PIXIVUTIL_DONATE}".ljust(PADDING + 6, " ") + Style.RESET_ALL + "│")
-    print("└" + "".ljust(PADDING - 2, "─") + "┘")
+    print("◉ " + f"PixivDownloader2 v {PixivConstant.PIXIVUTIL_VERSION}".ljust(PADDING - 3, " "))
+    # print("│ " + Fore.YELLOW + Back.BLACK + Style.BRIGHT + f"PixivDownloader2 version {PixivConstant.PIXIVUTIL_VERSION}".ljust(PADDING - 3, " ") + Style.RESET_ALL + "│")
+    # print("│ " + Fore.CYAN + Back.BLACK + Style.BRIGHT + PixivConstant.PIXIVUTIL_LINK.ljust(PADDING - 3, " ") + Style.RESET_ALL + "│")
+    # print("│ " + Fore.YELLOW + Back.BLACK + Style.BRIGHT + f"Donate at {Fore.CYAN}{Style.BRIGHT}{PixivConstant.PIXIVUTIL_DONATE}".ljust(PADDING + 6, " ") + Style.RESET_ALL + "│")
 
 
 def get_start_and_end_page_from_options(options):
@@ -154,48 +153,48 @@ def menu():
     PADDING = 60
     set_console_title()
     header()
-    print(Style.BRIGHT + '── Pixiv '.ljust(PADDING, "─") + Style.RESET_ALL)
+    # print('── Pixiv '.ljust(PADDING, "─"))
     print(' 1.  Download by member_id')
     print(' 2.  Download by image_id')
-    print(' 3.  Download by tags')
+    # print(' 3.  Download by tags')
     print(' 4.  Download from list')
-    print(' 5.  Download from followed artists (/bookmark.php?type=user)')
+    # print(' 5.  Download from followed artists (/bookmark.php?type=user)')
     print(' 6.  Download from bookmarked images (/bookmark.php)')
-    print(' 7.  Download from tags list')
-    print(' 8.  Download new illust from bookmarked members (/bookmark_new_illust.php)')
-    print(' 9.  Download by Title/Caption')
-    print(' 10. Download by Tag and Member Id')
-    print(' 11. Download Member Bookmark (/bookmark.php?id=)')
-    print(' 12. Download by Group Id')
-    print(' 13. Download by Manga Series Id')
-    print(' 14. Download by Novel Id')
-    print(' 15. Download by Novel Series Id')
-    print(' 16. Download by Rank')
-    print(' 17. Download by Rank R-18')
-    print(' 18. Download by New Illusts')
-    print(' 19. Download by Unlisted image_id')
-    print(Style.BRIGHT + '── FANBOX '.ljust(PADDING, "─") + Style.RESET_ALL)
-    print(' f1. Download from supporting list (FANBOX)')
-    print(' f2. Download by artist/creator id (FANBOX)')
-    print(' f3. Download by post id (FANBOX)')
-    print(' f4. Download from following list (FANBOX)')
-    print(' f5. Download from custom list (FANBOX)')
-    print(' f6. Download Pixiv by FANBOX Artist ID')
-    print(Style.BRIGHT + '── Sketch '.ljust(PADDING, "─") + Style.RESET_ALL)
-    print(' s1. Download by creator id (Sketch)')
-    print(' s2. Download by post id (Sketch)')
-    print(Style.BRIGHT + '── Batch Download '.ljust(PADDING, "─") + Style.RESET_ALL)
-    print(' b. Batch Download from batch_job.json (experimental)')
-    print(Style.BRIGHT + '── Others '.ljust(PADDING, "─") + Style.RESET_ALL)
-    print(' d. Manage database')
-    print(' l. Export local database.')
-    print(' e. Export online followed artist.')
-    print(' m. Export online other\'s followed artist.')
-    print(' p. Export online image bookmarks.')
-    print(' i. Import list file')
-    print(' u. Ugoira re-encode')
-    print(' r. Reload config.ini')
-    print(' c. Print config.ini')
+    # print(' 7.  Download from tags list')
+    # print(' 8.  Download new illust from bookmarked members (/bookmark_new_illust.php)')
+    # print(' 9.  Download by Title/Caption')
+    # print(' 10. Download by Tag and Member Id')
+    # print(' 11. Download Member Bookmark (/bookmark.php?id=)')
+    # print(' 12. Download by Group Id')
+    # print(' 13. Download by Manga Series Id')
+    # print(' 14. Download by Novel Id')
+    # print(' 15. Download by Novel Series Id')
+    # print(' 16. Download by Rank')
+    # print(' 17. Download by Rank R-18')
+    # print(' 18. Download by New Illusts')
+    # print(' 19. Download by Unlisted image_id')
+    # print('── FANBOX '.ljust(PADDING, "─"))
+    # print(' f1. Download from supporting list (FANBOX)')
+    # print(' f2. Download by artist/creator id (FANBOX)')
+    # print(' f3. Download by post id (FANBOX)')
+    # print(' f4. Download from following list (FANBOX)')
+    # print(' f5. Download from custom list (FANBOX)')
+    # print(' f6. Download Pixiv by FANBOX Artist ID')
+    # print('── Sketch '.ljust(PADDING, "─"))
+    # print(' s1. Download by creator id (Sketch)')
+    # print(' s2. Download by post id (Sketch)')
+    # print('── Batch Download '.ljust(PADDING, "─"))
+    # print(' b. Batch Download from batch_job.json (experimental)')
+    # print('── Others '.ljust(PADDING, "─"))
+    # print(' d. Manage database')
+    # print(' l. Export local database.')
+    # print(' e. Export online followed artist.')
+    # print(' m. Export online other\'s followed artist.')
+    # print(' p. Export online image bookmarks.')
+    # print(' i. Import list file')
+    # print(' u. Ugoira re-encode')
+    # print(' r. Reload config.ini')
+    # print(' c. Print config.ini')
     print(' x. Exit')
 
     read_lists()
@@ -1695,7 +1694,7 @@ def main():
         PixivHelper.print_and_log("warn", f"Post Processing after download is enabled: {__config__.postProcessingCmd}")
 
     try:
-        __dbManager__ = PixivDBManager(root_directory=__config__.rootDirectory, target=__config__.dbPath)
+        __dbManager__ = PixivDBManager(conn_info=__config__.postgresConnInfo)
         __dbManager__.createDatabase()
 
         if __config__.useList:
@@ -1750,16 +1749,16 @@ def main():
         if __config__.useLocalTimezone:
             PixivHelper.print_and_log("info", f"Using local timezone: {PixivHelper.LocalUTCOffsetTimezone()}")
 
-        print(Fore.RED + Style.BRIGHT + "Username login is broken, use Cookies to log in." + Style.RESET_ALL)
-        print(Fore.YELLOW + Style.BRIGHT + "See Q3. at " + Style.RESET_ALL +
-              Fore.CYAN + Style.BRIGHT + "https://github.com/Nandaka/PixivUtil2?tab=readme-ov-file#a-usage" + Style.RESET_ALL)
+        print("Username login is broken, use Cookies to log in." + Style.RESET_ALL)
+        # print(Fore.YELLOW + Style.BRIGHT + "See Q3. at " + Style.RESET_ALL +
+        #       Fore.CYAN + Style.BRIGHT + "https://github.com/Nandaka/PixivUtil2?tab=readme-ov-file#a-usage" + Style.RESET_ALL)
 
         username = __config__.username
         password = __config__.password
         if not username or not password:
-            print(Fore.RED + Style.BRIGHT + "No username and/or password found in config.ini" + Style.RESET_ALL)
-            print(Fore.YELLOW + Style.BRIGHT + "See " + Style.RESET_ALL + Fore.CYAN + Style.BRIGHT +
-                  "https://github.com/Nandaka/PixivUtil2?tab=readme-ov-file#authentication" + Style.RESET_ALL)
+            print("No username and/or password found in config.ini" + Style.RESET_ALL)
+            # print(Fore.YELLOW + Style.BRIGHT + "See " + Style.RESET_ALL + Fore.CYAN + Style.BRIGHT +
+            #       "https://github.com/Nandaka/PixivUtil2?tab=readme-ov-file#authentication" + Style.RESET_ALL)
 
         if np_is_valid and options.number_of_pages != 0:  # Yavos: overwrite config-data
             PixivHelper.print_and_log("info", f'Limit up to: {options.number_of_pages} page(s). (set via commandline)')

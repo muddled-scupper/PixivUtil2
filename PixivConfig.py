@@ -88,6 +88,7 @@ class PixivConfig():
         ConfigItem("Settings", "useList", False),
         ConfigItem("Settings", "processFromDb", True),
         ConfigItem("Settings", "rootDirectory", "."),
+        ConfigItem("Settings", "postgresConnInfo", None), #
         ConfigItem("Settings", "downloadAvatar", False),
         ConfigItem("Settings", "useSuppressTags", False),
         ConfigItem("Settings", "tagsLimit", -1),

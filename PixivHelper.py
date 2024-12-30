@@ -808,12 +808,12 @@ def download_image(url, filename, res, file_size, overwrite):
             # check if downloaded file is complete
             if file_size > 0 and curr == file_size:
                 total_time = (datetime.now() - start_time).total_seconds()
-                print_and_log(None, f' Completed in {Fore.CYAN}{total_time}{Style.RESET_ALL}s ({Fore.RED}{speed_in_str(file_size, total_time)}{Style.RESET_ALL})')
+                print_and_log(None, f' Completed in {total_time}{Style.RESET_ALL}s ({speed_in_str(file_size, total_time)}{Style.RESET_ALL})')
                 break
 
             elif curr == prev:  # no file size info
                 total_time = (datetime.now() - start_time).total_seconds()
-                print_and_log(None, f' Completed in {Fore.CYAN}{total_time}{Style.RESET_ALL}s ({Fore.RED}{speed_in_str(curr, total_time)}{Style.RESET_ALL})')
+                print_and_log(None, f' Completed in {total_time}{Style.RESET_ALL}s ({speed_in_str(curr, total_time)}{Style.RESET_ALL})')
                 break
 
             prev = curr
@@ -862,7 +862,7 @@ def print_progress(curr, total, max_msg_length=80):
         complete = int((curr * animBarLen) / total)
         remainder = (((curr * animBarLen) % total) / total)
         use_half_block = (remainder <= 0.5) and remainder > 0.1
-        color = f"{Fore.GREEN}{Style.BRIGHT}" if complete == animBarLen else Fore.RED
+        color = f"" #if complete == animBarLen else Fore.RED
         if use_half_block:
             with_half_block = f"{'━' * (complete - 1)}╸"
             msg = f"\r{color}[{with_half_block:{animBarLen}}]{Style.RESET_ALL} {size_in_str(curr)} of {size_in_str(total)}"
@@ -878,7 +878,7 @@ def print_progress(curr, total, max_msg_length=80):
         # Use nested replacement field to specify the precision value. This limits the maximum print
         # length of the progress bar. As pos changes, the starting print position of the anim string
         # also changes, thus producing the scrolling effect.
-        msg = f'\r{Fore.YELLOW}[{anim[animBarLen + 3 - pos:]:.{animBarLen}}]{Style.RESET_ALL} {size_in_str(curr)}'
+        msg = f'\r[{anim[animBarLen + 3 - pos:]:.{animBarLen}}]{Style.RESET_ALL} {size_in_str(curr)}'
 
     curr_msg_length = len(msg)
     print_and_log(None, msg.ljust(max_msg_length, " "), newline=False)

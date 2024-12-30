@@ -1,4 +1,5 @@
 # VSCode files
+PxArtists/*
 .vscode/*
 *.code-workspace
 # Environments
