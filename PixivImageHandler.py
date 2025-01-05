@@ -9,6 +9,8 @@ import time
 import traceback
 import pathlib
 import urllib
+from PIL import Image
+from pathlib import Path
 
 from colorama import Fore, Style
 
@@ -303,6 +305,13 @@ def process_image(caller,
 
                 except urllib.error.URLError:
                     PixivHelper.print_and_log('error', f'Error when download_image(), giving up url: {img}')
+                #extra code by muddle
+                # from /workdir/PxArtists/nnnnn - /nnnnn_p4_master1200***.jpg 
+                # to /workdir/PxArtists/thumbs/nnnnn/nnnnn_p4.jpg 
+                thumbBase = Path(target_dir) / "thumbs"
+
+                thumbpath = thumbBase.resolve() / image.artist.artistId / f"{image.imageId}_p{page-1}.webp" #page -1 required!
+                createThumbWebP(filename, str(thumbpath))
                 PixivHelper.print_and_log(None, '')
 
                 # XMP image info per images
@@ -417,7 +426,7 @@ def process_image(caller,
                       PixivConstant.PIXIVUTIL_SKIP_LOCAL_LARGER):
             caption = image.imageCaption if config.autoAddCaption else ""
             try:
-                db.insertImage(image.artist.artistId, image.imageId, image.imageMode, caption=caption)
+                db.insertImagePlus(image.artist.artistId, image.imageId, image.imageMode, caption, image.imageCount)
             except BaseException:
                 PixivHelper.print_and_log('error', f'Failed to insert image id:{image.imageId} to DB')
 
@@ -447,8 +456,9 @@ def process_image(caller,
                 member_token = image.artist.artistToken
                 member_name = image.artist.artistName
                 if member_id and member_token and member_name:
-                    db.insertNewMember(int(member_id), member_token=member_token)
-                    db.updateMemberName(member_id, member_name, member_token)
+                    # db.insertNewMember(int(member_id), member_token=member_token)
+                    # db.updateMemberName(member_id, member_name, member_token)
+                    db.insertNewMemberPlus(int(member_id), member_name, member_token)
 
             # map back to PIXIVUTIL_OK (because of ugoira file check)
             result = 0
@@ -476,6 +486,17 @@ def process_image(caller,
 
         raise
 
+# muddle
+def createThumbWebP(imagePath, thumbPath):
+    image = Image.open(imagePath)
+    if os.path.exists(thumbPath):
+        PixivHelper.print_and_log(None, ' thumbs already exists...')
+    else:
+        os.makedirs(os.path.dirname(thumbPath), exist_ok=True)			
+
+    image.thumbnail((320,320))
+    image.save(thumbPath, "WEBP")
+    PixivHelper.print_and_log(None, f"thumb saved at {thumbPath}")
 
 def process_manga_series(caller,
                          config,

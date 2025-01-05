@@ -111,7 +111,8 @@ def process_member(caller,
                 is_avatar_downloaded = process_avatar_bg(caller, config, user_dir, notifier, artist)
 
             if config.autoAddMember:
-                db.insertNewMember(int(member_id), member_token=artist.artistToken)
+                # db.insertNewMember(int(member_id), member_token=artist.artistToken)
+                db.insertNewMemberPlus(int(member_id), artist.artistName, artist.artistToken)
 
             db.updateMemberName(member_id, artist.artistName, artist.artistToken)
 

@@ -410,6 +410,15 @@ class PixivDBManager(object):
         finally:
             c.close()
 
+    def insertNewMemberPlus(self, member_id, member_name, member_token):
+        with self.conn.cursor() as c:
+            c.execute("select member_id from pixiv_master_member where member_id = %s", (member_id,))
+            if None == c.fetchone():
+                with self.conn.transaction():
+                    c.execute('''INSERT INTO pixiv_master_member(member_id, name, save_folder, created_date, last_update_date, last_image, is_deleted, member_token)
+                               VALUES(%s, %s, %s, CURRENT_TIMESTAMP, '1-1-1', -1, 0, %s)''',
+                            (int(member_id), member_name, f"{member_id} - {member_name}", member_token))
+
     def selectAllMember(self, isDeleted=False):
         members = list()
         try:
@@ -797,17 +806,21 @@ class PixivDBManager(object):
         finally:
             c.close()
 
-    def insertImage(self, member_id, image_id, isManga="", caption=""):
+    def insertImagePlus(self, member_id, image_id, isManga="", caption="", image_count=0):
         try:
             c = self.conn.cursor()
             member_id = int(member_id)
             image_id = int(image_id)
+            image_count = int(image_count)
+            params = (image_id, member_id, isManga, caption, image_count)
 
             with self.conn.transaction():
-                c.execute('''INSERT INTO pixiv_master_image VALUES(%s, %s, 'N/A' ,'N/A' , CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, %s, %s )''',
-                        (image_id, member_id, isManga, caption))
+                c.execute('''INSERT INTO pixiv_master_image(image_id, member_id, title, save_name, 
+                          created_date, last_update_date, is_manga, caption, image_count)
+                           VALUES(%s, %s, 'N/A' ,'N/A' , CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, %s, %s, %s )''',
+                            params)
         except BaseException:
-            print('Error at insertImage():', str(sys.exc_info()))
+            print('Error at insertImagePlus():', str(sys.exc_info()))
             print('failed')
             raise
         finally:
