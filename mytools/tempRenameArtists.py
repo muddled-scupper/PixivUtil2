@@ -26,6 +26,7 @@ def rename_folders(base_path):
                 os.rename(folder_path, new_folder_path)
                 print(f"Renamed: {folder_name} -> {new_folder_name}")
 
-# Example usage
-base_path = "./Artists"  # Replace with the actual path to your folder
-rename_folders(base_path)
+if __name__ == "__main__":
+    pass
+    # base_path = "./Artists"  # Replace with the actual path to your folder
+    # rename_folders(base_path)
