@@ -170,6 +170,7 @@ def replace_path_separator(s, replacement='_'):
 def make_filename(nameFormat: str,
                   imageInfo: Union[PixivImage, FanboxPost],
                   artistInfo: Union[PixivArtist.PixivArtist, FanboxArtist] = None,
+                  artistNameAlt = None, # Muddle
                   tagsSeparator=' ',
                   tagsLimit=-1,
                   fileUrl='',
@@ -182,6 +183,10 @@ def make_filename(nameFormat: str,
     global _config
     if artistInfo is None:
         artistInfo = imageInfo.artist
+    
+    # Muddle - extra code. artistNameAlt replaces artistName on this function
+    if artistNameAlt is None:
+        artistNameAlt = artistInfo.artistName
 
     # Get the image extension
     fileUrl = os.path.basename(fileUrl)
@@ -201,7 +206,7 @@ def make_filename(nameFormat: str,
         imageExtension = forced_ext[0]
 
     # artist related
-    nameFormat = nameFormat.replace('%artist%', replace_path_separator(artistInfo.artistName))
+    nameFormat = nameFormat.replace('%artist%', replace_path_separator(artistNameAlt)) # Muddle | artistInfo.artistName replaced
     nameFormat = nameFormat.replace('%member_id%', str(artistInfo.artistId))
     nameFormat = nameFormat.replace('%member_token%', artistInfo.artistToken)
 
@@ -318,7 +323,7 @@ def make_filename(nameFormat: str,
         nameFormat = nameFormat.replace('%bookmark%', '')
         nameFormat = nameFormat.replace('%original_member_id%', str(artistInfo.artistId))
         nameFormat = nameFormat.replace('%original_member_token%', artistInfo.artistToken)
-        nameFormat = nameFormat.replace('%original_artist%', replace_path_separator(artistInfo.artistName))
+        nameFormat = nameFormat.replace('%original_artist%', replace_path_separator(artistNameAlt)) # Muddle | artistInfo.artistName replaced
 
     if imageInfo.bookmark_count > 0:
         nameFormat = nameFormat.replace('%bookmark_count%', str(imageInfo.bookmark_count))

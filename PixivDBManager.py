@@ -415,9 +415,9 @@ class PixivDBManager(object):
             c.execute("select member_id from pixiv_master_member where member_id = %s", (member_id,))
             if None == c.fetchone():
                 with self.conn.transaction():
-                    c.execute('''INSERT INTO pixiv_master_member(member_id, name, save_folder, created_date, last_update_date, last_image, is_deleted, member_token)
-                               VALUES(%s, %s, %s, CURRENT_TIMESTAMP, '1-1-1', -1, 0, %s)''',
-                            (int(member_id), member_name, f"{member_id} - {member_name}", member_token))
+                    c.execute('''INSERT INTO pixiv_master_member(member_id, name, shortname, name_for_folder, created_date, last_update_date, last_image, is_deleted, member_token)
+                               VALUES(%s, %s, %s, %s, CURRENT_TIMESTAMP, '1-1-1', -1, 0, %s)''',
+                            (int(member_id), member_name, member_name, member_name, member_token))
 
     def selectAllMember(self, isDeleted=False):
         members = list()
@@ -497,6 +497,23 @@ class PixivDBManager(object):
         finally:
             c.close()
 
+    def selectMemberByMemberId_fetchNameForFolder(self, member_id):
+        try:
+            c = self.conn.cursor()
+            c.execute(
+                '''SELECT name_for_folder FROM pixiv_master_member WHERE member_id = %s ''', (member_id, ))
+            row = c.fetchone()
+            if row is not None:
+                return row[0]
+            else:
+                return None
+        except BaseException:
+            print('Error at selectMemberByMemberId_FetchNameForFolder():', str(sys.exc_info()))
+            print('failed')
+            raise
+        finally:
+            c.close()
+
     def printMembersByLastDownloadDate(self, difference):
         rows = self.selectMembersByLastDownloadDate(difference)
 
@@ -506,6 +523,7 @@ class PixivDBManager(object):
                 print(string)
             print('\n')
 
+    # but not shortname
     def updateMemberName(self, memberId, memberName, member_token):
         try:
             c = self.conn.cursor()
@@ -711,8 +729,9 @@ class PixivDBManager(object):
             c.execute("select tag_id from pixiv_master_tag where tag_id = %s", (tag_id,))
             if None == c.fetchone():
                 with self.conn.transaction():
-                    c.execute('''INSERT INTO pixiv_master_tag VALUES (%s, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)''',
-                            (tag_id,))
+                    c.execute('''INSERT INTO pixiv_master_tag(tag_id,shortname,created_date,last_update_date)
+                              VALUES (%s, %s, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)''',
+                            (tag_id,tag_id,))
         except BaseException:
             print('Error at insertTag():', str(sys.exc_info()))
             print('failed')

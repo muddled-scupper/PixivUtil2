@@ -261,8 +261,12 @@ def process_image(caller,
                 if image.imageMode == 'manga':
                     filename_format = config.filenameMangaFormat
 
+                # Muddle - extra code for filenameFormat etc. always use first registered member name
+                artistNameAltfor_filenameFormat = db.selectMemberByMemberId_fetchNameForFolder(image.artist.artistId)
+
                 filename = PixivHelper.make_filename(filename_format,
                                                         image,
+                                                        artistNameAlt = artistNameAltfor_filenameFormat, # Muddle
                                                         tagsSeparator=config.tagsSeparator,
                                                         tagsLimit=config.tagsLimit,
                                                         fileUrl=url,
@@ -305,7 +309,7 @@ def process_image(caller,
 
                 except urllib.error.URLError:
                     PixivHelper.print_and_log('error', f'Error when download_image(), giving up url: {img}')
-                #extra code by muddle
+                # Muddle - extra code
                 # from /workdir/PxArtists/nnnnn - /nnnnn_p4_master1200***.jpg 
                 # to /workdir/PxArtists/thumbs/nnnnn/nnnnn_p4.jpg 
                 thumbBase = Path(target_dir) / "thumbs"
@@ -459,6 +463,10 @@ def process_image(caller,
                     # db.insertNewMember(int(member_id), member_token=member_token)
                     # db.updateMemberName(member_id, member_name, member_token)
                     db.insertNewMemberPlus(int(member_id), member_name, member_token)
+                    PixivHelper.print_and_log(None, f'member autoadded - {member_id} : {member_name}')
+            
+            # Muddle - update member info - pixiv_master_member's last_update_date and last_image
+            db.updateLastDownloadedImage(image.artist.artistId, image.imageId)
 
             # map back to PIXIVUTIL_OK (because of ugoira file check)
             result = 0
